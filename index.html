@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solicitud de Servicio Eléctrico</title>
+<title>Soluciones Eléctricas EP — Emiliano Puglisi</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,7 +67,9 @@
   }
   .header p { margin-top:12px; font-size:15px; color:var(--gray); line-height:1.5; font-weight:300; }
   .card {
-    background: linear-gradient(180deg, #0f2456 0%, #0a1a40 100%);
+    background: linear-gradient(180deg, rgba(15,36,86,0.78) 0%, rgba(10,26,64,0.82) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border: 4px solid rgba(255,255,255,0.04);
     border-radius: 40px;
     padding: 40px 36px;
@@ -381,15 +385,15 @@
       <div class="section-label">Nuestros trabajos</div>
       <div class="carousel-wrap">
         <div class="carousel-track" id="carouselTrack">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.06.09%20PM.jpeg" alt="Trabajo 1">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.06.10%20PM.jpeg" alt="Trabajo 2">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.08.16%20PM%20(1).jpeg" alt="Trabajo 3">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.08.16%20PM.jpeg" alt="Trabajo 4">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.08.17%20PM.jpeg" alt="Trabajo 5">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.14.24%20PM.jpeg" alt="Trabajo 6">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.14.26%20PM%20(1).jpeg" alt="Trabajo 7">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%208.14.26%20PM.jpeg" alt="Trabajo 8">
-          <img src="fotos/WhatsApp%20Image%202026-05-26%20at%209.08.34%20PM.jpeg" alt="Trabajo 9">
+          <img src="fotos-web/trabajo-01.jpg" alt="Trabajo 1" loading="eager">
+          <img src="fotos-web/trabajo-02.jpg" alt="Trabajo 2" loading="lazy">
+          <img src="fotos-web/trabajo-03.jpg" alt="Trabajo 3" loading="lazy">
+          <img src="fotos-web/trabajo-04.jpg" alt="Trabajo 4" loading="lazy">
+          <img src="fotos-web/trabajo-05.jpg" alt="Trabajo 5" loading="lazy">
+          <img src="fotos-web/trabajo-06.jpg" alt="Trabajo 6" loading="lazy">
+          <img src="fotos-web/trabajo-07.jpg" alt="Trabajo 7" loading="lazy">
+          <img src="fotos-web/trabajo-08.jpg" alt="Trabajo 8" loading="lazy">
+          <img src="fotos-web/trabajo-09.jpg" alt="Trabajo 9" loading="lazy">
         </div>
         <button class="carousel-btn prev" onclick="carouselMove(-1)">&#8592;</button>
         <button class="carousel-btn next" onclick="carouselMove(1)">&#8594;</button>
@@ -458,6 +462,32 @@
           life: 1,
         });
       }
+    });
+
+    window.addEventListener('touchmove', e => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+        mouse.active = true;
+      }
+    }, { passive: true });
+    window.addEventListener('touchstart', e => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+        mouse.active = true;
+        for (let i = 0; i < 6; i++) {
+          sparks.push({
+            x: mouse.x, y: mouse.y,
+            vx: (Math.random() - 0.5) * 5,
+            vy: (Math.random() - 0.5) * 5,
+            life: 1,
+          });
+        }
+      }
+    }, { passive: true });
+    window.addEventListener('touchend', () => {
+      setTimeout(() => { mouse.active = false; }, 1500);
     });
 
     function drawLightning(x1, y1, x2, y2, alpha) {
