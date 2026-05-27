@@ -314,22 +314,22 @@
       <div class="field">
         <label>Tipo de trabajo <span class="req">*</span></label>
         <div class="check-group" id="servicios">
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item">
             <input type="checkbox" name="servicio" value="Steel farming">
             <span class="check-box"><span class="check-icon">&#10003;</span></span>
             <span class="check-label">Steel farming</span>
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item">
             <input type="checkbox" name="servicio" value="Pintura">
             <span class="check-box"><span class="check-icon">&#10003;</span></span>
             <span class="check-label">Pintura</span>
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item">
             <input type="checkbox" name="servicio" value="Electricidad">
             <span class="check-box"><span class="check-icon">&#10003;</span></span>
             <span class="check-label">Electricidad</span>
           </label>
-          <label class="check-item" onclick="toggleCheck(this)">
+          <label class="check-item">
             <input type="checkbox" name="servicio" value="Iluminación">
             <span class="check-box"><span class="check-icon">&#10003;</span></span>
             <span class="check-label">Iluminación</span>
@@ -341,17 +341,17 @@
       <div class="field">
         <label>¿Cuándo lo necesitás?</label>
         <div class="radio-group" id="urgencia">
-          <label class="radio-item" onclick="selectRadio(this,'urgencia')">
+          <label class="radio-item">
             <input type="radio" name="urgencia" value="Es urgente">
             <span class="radio-dot"><span class="radio-inner"></span></span>
             &#128308; Urgente
           </label>
-          <label class="radio-item" onclick="selectRadio(this,'urgencia')">
+          <label class="radio-item">
             <input type="radio" name="urgencia" value="Esta semana">
             <span class="radio-dot"><span class="radio-inner"></span></span>
             &#128993; Esta semana
           </label>
-          <label class="radio-item" onclick="selectRadio(this,'urgencia')">
+          <label class="radio-item">
             <input type="radio" name="urgencia" value="Sin apuro, quiero presupuesto">
             <span class="radio-dot"><span class="radio-inner"></span></span>
             &#128994; Sin apuro
@@ -369,17 +369,17 @@
       <div class="field">
         <label>¿Cómo preferís que te contactemos?</label>
         <div class="radio-group" id="contacto">
-          <label class="radio-item" onclick="selectRadio(this,'contacto')">
+          <label class="radio-item">
             <input type="radio" name="contacto" value="WhatsApp">
             <span class="radio-dot"><span class="radio-inner"></span></span>
             WhatsApp
           </label>
-          <label class="radio-item" onclick="selectRadio(this,'contacto')">
+          <label class="radio-item">
             <input type="radio" name="contacto" value="Llamada">
             <span class="radio-dot"><span class="radio-inner"></span></span>
             Llamada
           </label>
-          <label class="radio-item" onclick="selectRadio(this,'contacto')">
+          <label class="radio-item">
             <input type="radio" name="contacto" value="Email">
             <span class="radio-dot"><span class="radio-inner"></span></span>
             Email
@@ -616,15 +616,20 @@
     resetAuto();
   })();
 
-  function toggleCheck(el) {
-    el.classList.toggle('checked');
-    el.querySelector('input').checked = el.classList.contains('checked');
-  }
-  function selectRadio(el, groupId) {
-    document.querySelectorAll('#' + groupId + ' .radio-item').forEach(i => i.classList.remove('selected'));
-    el.classList.add('selected');
-    el.querySelector('input').checked = true;
-  }
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(input => {
+    input.addEventListener('change', () => {
+      input.closest('.check-item').classList.toggle('checked', input.checked);
+    });
+  });
+
+  document.querySelectorAll('.radio-item input[type="radio"]').forEach(input => {
+    input.addEventListener('change', () => {
+      const name = input.name;
+      document.querySelectorAll('input[type="radio"][name="' + name + '"]').forEach(r => {
+        r.closest('.radio-item').classList.toggle('selected', r.checked);
+      });
+    });
+  });
   document.getElementById('form').addEventListener('submit', function(e) {
     e.preventDefault();
     const nombre = this.nombre.value.trim();
