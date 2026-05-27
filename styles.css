@@ -522,6 +522,23 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
   font-weight: 300;
 }
 
+/* ── Layout extendido para cotización ── */
+.cotizacion-page .page-wrap {
+  padding: 84px 20px 40px;
+}
+.cotizacion-page .wrapper {
+  max-width: 1200px;
+  width: 100%;
+}
+.cotizacion-page .card {
+  width: 100%;
+}
+@media (min-width: 1400px) {
+  .cotizacion-page .wrapper {
+    max-width: 1320px;
+  }
+}
+
 /* ── Galería ── */
 .galeria-header {
   text-align: center;
@@ -576,6 +593,55 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
   margin-top: 10px;
   text-align: center;
   color: var(--gray);
+}
+
+.credit-footer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 14px 16px 28px;
+}
+.credit-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: rgba(232, 238, 229, 0.88);
+}
+.credit-inner svg {
+  width: 18px;
+  height: 18px;
+  fill: rgba(232, 238, 229, 0.88);
+  flex-shrink: 0;
+}
+.credit-inner p {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: rgba(240, 245, 238, 0.9);
+  text-transform: uppercase;
+}
+.credit-link {
+  color: rgba(232, 238, 229, 0.98);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.credit-link:hover,
+.credit-link:focus-visible {
+  color: var(--yellow);
+  border-bottom-color: rgba(245,196,0,0.8);
+  outline: none;
+}
+.reg-mark {
+  font-size: 20px;
+  line-height: 0;
+  font-weight: 700;
+  vertical-align: baseline;
+  color: rgba(240, 245, 238, 0.98);
 }
 
 /* ── Botón flotante de Urgencia ── */
