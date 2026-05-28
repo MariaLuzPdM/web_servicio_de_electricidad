@@ -15,11 +15,32 @@
     glowColor: '#e6d18a',
     nodeRadius: 0.85,
     nodePulse: 0.35,
+    lineWidth: 0.6,
+    lineAlpha: 0.35,
+    shadowBlur: 10,
   };
 
+  function updateConfigForViewport() {
+    const mobile = window.matchMedia('(max-width: 600px)').matches;
+    CONFIG.nodeRadius = mobile ? 0.6 : 0.85;
+    CONFIG.nodePulse = mobile ? 0.22 : 0.35;
+    CONFIG.nodeColor = 'rgba(230, 209, 138, ' + (mobile ? '0.8' : '0.9') + ')';
+    CONFIG.maxDist = mobile ? 110 : 140;
+    CONFIG.lineWidth = mobile ? 0.45 : 0.6;
+    CONFIG.lineAlpha = mobile ? 0.3 : 0.35;
+    CONFIG.shadowBlur = mobile ? 6 : 10;
+  }
+
   function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    updateConfigForViewport();
   }
   window.addEventListener('resize', resize);
   resize();
@@ -120,12 +141,12 @@
         const a = nodes[i], b = nodes[j];
         const d = Math.hypot(a.x - b.x, a.y - b.y);
         if (d < CONFIG.maxDist) {
-          const alpha = (1 - d / CONFIG.maxDist) * 0.35;
+          const alpha = (1 - d / CONFIG.maxDist) * CONFIG.lineAlpha;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
           ctx.strokeStyle = CONFIG.lineColor + alpha + ')';
-          ctx.lineWidth = 0.6;
+          ctx.lineWidth = CONFIG.lineWidth;
           ctx.stroke();
         }
       }
@@ -146,17 +167,18 @@
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
       ctx.fillStyle = CONFIG.nodeColor;
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = CONFIG.shadowBlur;
       ctx.shadowColor = CONFIG.glowColor;
       ctx.fill();
       ctx.shadowBlur = 0;
     }
 
     sparks = sparks.filter(s => s.life > 0);
+    const sparkRadius = window.matchMedia('(max-width: 600px)').matches ? 1.8 : 2.5;
     for (const s of sparks) {
       s.x += s.vx; s.y += s.vy; s.life -= 0.03;
       ctx.beginPath();
-      ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
+      ctx.arc(s.x, s.y, sparkRadius, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(230, 209, 138, ' + s.life + ')';
       ctx.shadowBlur = 14;
       ctx.shadowColor = CONFIG.glowColor;
