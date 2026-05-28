@@ -20,8 +20,12 @@
     shadowBlur: 10,
   };
 
+  function isMobileViewport() {
+    return window.matchMedia('(max-width: 600px)').matches;
+  }
+
   function updateConfigForViewport() {
-    const mobile = window.matchMedia('(max-width: 600px)').matches;
+    const mobile = isMobileViewport();
     CONFIG.nodeRadius = mobile ? 0.6 : 0.85;
     CONFIG.nodePulse = mobile ? 0.22 : 0.35;
     CONFIG.nodeColor = 'rgba(230, 209, 138, ' + (mobile ? '0.8' : '0.9') + ')';
@@ -60,6 +64,7 @@
   });
   window.addEventListener('mouseleave', () => { mouse.active = false; mouse.x = -9999; mouse.y = -9999; });
   window.addEventListener('click', e => {
+    if (isMobileViewport()) return;
     for (let i = 0; i < 8; i++) {
       sparks.push({
         x: e.clientX, y: e.clientY,
@@ -68,32 +73,6 @@
         life: 1,
       });
     }
-  });
-
-  window.addEventListener('touchmove', e => {
-    if (e.touches.length > 0) {
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
-      mouse.active = true;
-    }
-  }, { passive: true });
-  window.addEventListener('touchstart', e => {
-    if (e.touches.length > 0) {
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
-      mouse.active = true;
-      for (let i = 0; i < 6; i++) {
-        sparks.push({
-          x: mouse.x, y: mouse.y,
-          vx: (Math.random() - 0.5) * 5,
-          vy: (Math.random() - 0.5) * 5,
-          life: 1,
-        });
-      }
-    }
-  }, { passive: true });
-  window.addEventListener('touchend', () => {
-    setTimeout(() => { mouse.active = false; }, 1500);
   });
 
   function drawLightning(x1, y1, x2, y2, alpha) {
@@ -123,7 +102,7 @@
       if (n.x < 0 || n.x > w) n.vx *= -1;
       if (n.y < 0 || n.y > h) n.vy *= -1;
 
-      if (mouse.active) {
+      if (mouse.active && !isMobileViewport()) {
         const dx = mouse.x - n.x, dy = mouse.y - n.y;
         const d = Math.hypot(dx, dy);
         if (d < CONFIG.mouseRadius) {
@@ -152,7 +131,7 @@
       }
     }
 
-    if (mouse.active) {
+    if (mouse.active && !isMobileViewport()) {
       for (const n of nodes) {
         const d = Math.hypot(mouse.x - n.x, mouse.y - n.y);
         if (d < CONFIG.mouseRadius) {
