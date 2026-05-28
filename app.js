@@ -9,10 +9,12 @@
     nodeCount: 70,
     maxDist: 140,
     mouseRadius: 180,
-    nodeColor: 'rgba(130, 230, 95, 0.9)',
-    lineColor: 'rgba(120, 200, 90, ',
-    arcColor: 'rgba(150, 255, 100, ',
-    glowColor: '#7ed957',
+    nodeColor: 'rgba(230, 209, 138, 0.9)',
+    lineColor: 'rgba(230, 209, 138, ',
+    arcColor: 'rgba(230, 209, 138, ',
+    glowColor: '#e6d18a',
+    nodeRadius: 0.85,
+    nodePulse: 0.35,
   };
 
   function resize() {
@@ -140,7 +142,7 @@
     }
 
     for (const n of nodes) {
-      const r = 1.6 + Math.sin(n.pulse) * 0.6;
+      const r = CONFIG.nodeRadius + Math.sin(n.pulse) * CONFIG.nodePulse;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
       ctx.fillStyle = CONFIG.nodeColor;
@@ -155,7 +157,7 @@
       s.x += s.vx; s.y += s.vy; s.life -= 0.03;
       ctx.beginPath();
       ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(130, 230, 95, ' + s.life + ')';
+      ctx.fillStyle = 'rgba(230, 209, 138, ' + s.life + ')';
       ctx.shadowBlur = 14;
       ctx.shadowColor = CONFIG.glowColor;
       ctx.fill();
