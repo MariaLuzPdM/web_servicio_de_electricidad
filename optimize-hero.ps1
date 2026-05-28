@@ -3,7 +3,7 @@ Add-Type -AssemblyName System.Drawing
 $srcFile = Join-Path $PSScriptRoot 'fotos\INICIO .jpg'
 $dstFile = Join-Path $PSScriptRoot 'fotos-web\inicio.jpg'
 $maxWidth = 1800
-$quality = 75
+$quality = 90
 
 $image = [System.Drawing.Image]::FromFile($srcFile)
 $w = $image.Width
