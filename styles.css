@@ -299,6 +299,38 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
 .check-icon { display:none; font-size:11px; color:var(--black); font-weight:700; }
 .check-item.checked .check-icon { display:block; }
 .check-label { font-size:13.5px; color:var(--white); }
+.check-item-otro {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+}
+.check-item-otro .check-label {
+  flex-shrink: 0;
+}
+.check-item-otro .otro-inline-input {
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 8px 12px;
+  background: rgba(14, 26, 12, 0.65);
+  border: 1px solid rgba(245,196,0,0.35);
+  border-radius: 12px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  width: auto;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.35);
+  cursor: text;
+}
+.check-item-otro.checked .otro-inline-input {
+  display: block;
+}
+.check-item-otro .otro-inline-input:focus {
+  border-color: var(--yellow);
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.35), 0 0 0 2px rgba(245,196,0,0.15);
+}
 .radio-group { display:flex; gap:8px; flex-wrap:wrap; }
 .radio-item {
   display:flex; align-items:center; gap:8px;
@@ -324,6 +356,30 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
   margin-top: 56px;
   padding-top: 28px;
   border-top: 1px solid rgba(255,255,255,0.06);
+}
+.cotizacion-submit {
+  display: block;
+  width: 100%;
+  padding: 18px 32px;
+  background: linear-gradient(45deg, #4b7a3f 0%, #6aa15a 55%, #86bf6f 100%);
+  color: rgba(232, 238, 229, 0.94);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: rgba(74, 122, 63, 0.45) 0px 20px 30px -15px, rgba(109, 168, 91, 0.2) 0px 0px 28px;
+}
+.cotizacion-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(74, 122, 63, 0.55) 0px 24px 36px -12px, rgba(109, 168, 91, 0.3) 0px 0px 32px;
+}
+.cotizacion-submit:active {
+  transform: scale(0.98);
 }
 
 /* ── Void effect button ── */
@@ -384,22 +440,56 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
 }
 .void-wrapper.hero-void {
   position: absolute;
-  left: 50%;
-  bottom: 6%;
-  transform: translateX(-50%);
+  right: 5%;
+  bottom: 10%;
+  left: auto;
+  transform: none;
   margin: 0;
   width: auto;
-  max-width: 360px;
+  max-width: 320px;
   z-index: 3;
+  align-items: flex-end;
 }
-.void-wrapper.hero-void .event-horizon {
-  padding: 14px 38px;
-  font-size: 18px;
-  letter-spacing: 2px;
+.void-wrapper.hero-void .singularity {
+  right: 0;
+  left: auto;
+}
+.void-wrapper.hero-void .event-horizon.cta-line {
+  align-items: center;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: 0;
+  border: 0;
+  padding: 1rem;
+  width: auto;
+  border-radius: 0;
+  box-shadow: none;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+.void-wrapper.hero-void:hover .event-horizon.cta-line {
+  transform: none;
+  letter-spacing: 0.06em;
+  box-shadow: none;
 }
 @media (max-width: 600px) {
-  .void-wrapper.hero-void { bottom: 9%; max-width: 280px; }
-  .void-wrapper.hero-void .event-horizon { padding: 13px 28px; font-size: 16px; }
+  .void-wrapper.hero-void {
+    right: 4%;
+    bottom: 12%;
+    max-width: 260px;
+  }
+  .void-wrapper.hero-void .event-horizon.cta-line {
+    padding: 0.85rem;
+    font-size: 0.9rem;
+  }
 }
 .void-wrapper:hover .singularity {
   opacity: 1;
@@ -434,6 +524,50 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
 @keyframes voidRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
+}
+
+/* ── Botón WhatsApp flotante (inicio) ── */
+.wa-float {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #25D366 0%, #1ebe57 100%);
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  box-shadow:
+    0 10px 28px rgba(37, 211, 102, 0.45),
+    0 0 0 4px rgba(37, 211, 102, 0.15);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.wa-float:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 14px 36px rgba(37, 211, 102, 0.55),
+    0 0 0 8px rgba(37, 211, 102, 0.2);
+}
+.wa-float svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .wa-float {
+    bottom: 18px;
+    left: 18px;
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+  .wa-float svg { width: 22px; height: 22px; }
 }
 
 /* ── Botón WhatsApp inline ── */
@@ -537,62 +671,6 @@ textarea { resize:vertical; min-height:110px; line-height:1.5; }
   .cotizacion-page .wrapper {
     max-width: 1320px;
   }
-}
-
-/* ── Galería ── */
-.galeria-header {
-  text-align: center;
-  padding: 88px 16px 22px;
-  position: relative;
-  z-index: 1;
-}
-.galeria-header h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(36px, 5.8vw, 54px);
-  letter-spacing: 2px;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-.galeria-header p {
-  color: var(--gray);
-  font-size: 15px;
-  font-weight: 300;
-}
-.galeria-wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 16px 100px;
-}
-.galeria-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-}
-.galeria-card {
-  border-radius: 18px;
-  overflow: hidden;
-  background: rgba(22,36,26,0.85);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 12px 26px rgba(0,0,0,0.35);
-}
-.galeria-card img {
-  width: 100%;
-  height: 240px;
-  display: block;
-  object-fit: cover;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  filter: brightness(0.95);
-}
-.galeria-card:hover img {
-  transform: scale(1.04);
-  filter: brightness(1.04);
-}
-.galeria-empty {
-  margin-top: 10px;
-  text-align: center;
-  color: var(--gray);
 }
 
 .credit-footer {

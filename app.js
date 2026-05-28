@@ -169,7 +169,22 @@
 
 document.querySelectorAll('.check-item input[type="checkbox"]').forEach(input => {
   input.addEventListener('change', () => {
-    input.closest('.check-item').classList.toggle('checked', input.checked);
+    const item = input.closest('.check-item');
+    item.classList.toggle('checked', input.checked);
+    const otroInput = item.querySelector('.otro-inline-input');
+    if (otroInput) {
+      if (input.checked) {
+        setTimeout(() => otroInput.focus(), 80);
+      } else {
+        otroInput.value = '';
+      }
+    }
+  });
+});
+
+document.querySelectorAll('.otro-inline-input').forEach(input => {
+  ['click', 'mousedown', 'touchstart'].forEach(evt => {
+    input.addEventListener(evt, e => e.stopPropagation());
   });
 });
 
@@ -182,6 +197,41 @@ document.querySelectorAll('.radio-item input[type="radio"]').forEach(input => {
   });
 });
 
+const BUSINESS_WHATSAPP = '59894492019';
+
+function buildCotizacionMessage(form) {
+  const servicios = [...form.querySelectorAll('input[name="servicio"]:checked')].map(cb => {
+    if (cb.value === 'Otro' && form.otro_trabajo?.value.trim()) {
+      return 'Otro: ' + form.otro_trabajo.value.trim();
+    }
+    return cb.value;
+  });
+  const contacto = form.querySelector('input[name="contacto"]:checked')?.value || 'No indicó';
+  const lines = [
+    '*Nueva solicitud de cotización*',
+    'Soluciones Eléctricas EP',
+    '',
+    '*Nombre:* ' + form.nombre.value.trim(),
+    '*Teléfono:* ' + form.telefono.value.trim(),
+  ];
+  const email = form.email?.value.trim();
+  if (email) lines.push('*Email:* ' + email);
+  lines.push(
+    '*Barrio:* ' + form.barrio.value.trim(),
+    '*Trabajos:* ' + servicios.join(', '),
+  );
+  const descripcion = form.descripcion?.value.trim();
+  if (descripcion) lines.push('*Detalle:* ' + descripcion);
+  lines.push('*Contacto preferido:* ' + contacto);
+  return lines.join('\n');
+}
+
+function openWhatsAppWithMessage(text) {
+  const url = 'https://wa.me/' + BUSINESS_WHATSAPP + '?text=' + encodeURIComponent(text);
+  const win = window.open(url, '_blank', 'noopener,noreferrer');
+  if (!win) window.location.href = url;
+}
+
 const cotizacionForm = document.getElementById('form');
 if (cotizacionForm) {
   cotizacionForm.addEventListener('submit', function (e) {
@@ -190,15 +240,19 @@ if (cotizacionForm) {
     const telefono = this.telefono.value.trim();
     const barrio = this.barrio.value.trim();
     const servicios = [...document.querySelectorAll('input[name="servicio"]:checked')];
-    if (!nombre || !telefono || !barrio || servicios.length === 0) {
+    const otroChecked = document.querySelector('input[name="servicio"][value="Otro"]')?.checked;
+    const otroTrabajo = (this.otro_trabajo?.value || '').trim();
+    if (!nombre || !telefono || !barrio || servicios.length === 0 || (otroChecked && !otroTrabajo)) {
       const missing = [];
       if (!nombre) missing.push('nombre');
       if (!telefono) missing.push('teléfono');
       if (!barrio) missing.push('barrio');
       if (servicios.length === 0) missing.push('tipo de trabajo');
+      if (otroChecked && !otroTrabajo) missing.push('especificación de otro trabajo');
       alert('Por favor completá: ' + missing.join(', ') + '.');
       return;
     }
+    openWhatsAppWithMessage(buildCotizacionMessage(this));
     document.getElementById('form').style.display = 'none';
     document.getElementById('success').style.display = 'block';
   });
