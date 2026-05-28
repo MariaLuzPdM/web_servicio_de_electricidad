@@ -784,12 +784,38 @@ a.event-horizon.cta-btn:active {
 .back-btn .arrow { font-size: 16px; line-height: 1; }
 @media (max-width: 480px) {
   .back-btn { top: 16px; left: 16px; padding: 9px 14px; font-size: 12px; }
-  .cotizacion-top-bar { padding: 16px; }
 }
 .cotizacion-page .cotizacion-top-bar .back-btn {
-  position: static;
+  position: relative;
   top: auto;
   left: auto;
+}
+@media (max-width: 600px) {
+  .cotizacion-page .cotizacion-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: max(12px, env(safe-area-inset-top)) 16px 12px;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 50, 36, 0.96) 0%,
+      rgba(26, 50, 36, 0.72) 75%,
+      transparent 100%
+    );
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .cotizacion-page .cotizacion-top-bar .back-btn {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+  .cotizacion-page .page-wrap {
+    padding-top: max(78px, calc(env(safe-area-inset-top) + 62px));
+  }
 }
 
 .cotizacion-header {
