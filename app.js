@@ -235,6 +235,83 @@ function openWhatsAppWithMessage(text) {
   if (!win) window.location.href = url;
 }
 
+(function initTestimonialsCarousel() {
+  const track = document.querySelector('.testimonials-track');
+  if (!track) return;
+  const cards = [...track.querySelectorAll('.testimonial-card')];
+  const dots = [...document.querySelectorAll('.testimonial-dot')];
+  if (!cards.length) return;
+
+  let current = 0;
+  let timer;
+
+  function show(index) {
+    current = (index + cards.length) % cards.length;
+    cards.forEach((card, i) => {
+      const active = i === current;
+      card.classList.toggle('is-active', active);
+      card.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    dots.forEach((dot, i) => {
+      const active = i === current;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
+  function next() { show(current + 1); }
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, 6000);
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      show(i);
+      resetTimer();
+    });
+  });
+
+  show(0);
+  resetTimer();
+})();
+
+(function initGalleryLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+  const lightboxImg = lightbox.querySelector('.lightbox-img');
+  const closeBtn = lightbox.querySelector('.lightbox-close');
+
+  function open(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    lightbox.hidden = false;
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.hidden = true;
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.gallery-item img').forEach(img => {
+    img.closest('.gallery-item').addEventListener('click', () => {
+      open(img.src, img.alt);
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) close();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !lightbox.hidden) close();
+  });
+})();
+
 const cotizacionForm = document.getElementById('form');
 if (cotizacionForm) {
   cotizacionForm.addEventListener('submit', function (e) {
