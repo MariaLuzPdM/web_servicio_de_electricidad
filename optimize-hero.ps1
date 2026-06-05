@@ -1,6 +1,6 @@
 Add-Type -AssemblyName System.Drawing
 
-$srcFile = Join-Path $PSScriptRoot 'fotos\INICIO .jpg'
+$srcFile = Join-Path $PSScriptRoot 'fotos\istockphoto-1425620130-612x612.jpg'
 $dstFile = Join-Path $PSScriptRoot 'fotos-web\inicio.jpg'
 $maxWidth = 1800
 $quality = 90
@@ -9,7 +9,7 @@ $image = [System.Drawing.Image]::FromFile($srcFile)
 $w = $image.Width
 $h = $image.Height
 
-if ($w -gt $maxWidth) {
+if ($w -ne $maxWidth) {
     $ratio = $maxWidth / $w
     $newW = $maxWidth
     $newH = [int]($h * $ratio)
